@@ -41,12 +41,9 @@ public class TransactionService {
 
         Transaction transaction = transactionFactory.createTransaction(transactionDTO, sender, receiver);
 
-        sender.setBalance(sender.getBalance().subtract(transactionDTO.amount()));
-        receiver.setBalance(receiver.getBalance().add(transactionDTO.amount()));
+        userService.processTransaction(sender, receiver, transactionDTO.amount());
 
         this.transactionRepository.save(transaction);
-        this.userService.saveUser(sender);
-        this.userService.saveUser(receiver);
 
         this.notificationService.sendNotification(sender, "Transação realizada com sucesso");
         this.notificationService.sendNotification(receiver, "Transação recebida com sucesso");

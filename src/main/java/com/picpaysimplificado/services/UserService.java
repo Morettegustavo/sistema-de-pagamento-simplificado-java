@@ -47,6 +47,13 @@ public class UserService {
         return newUser;
     }
 
+    public void processTransaction(User sender, User receiver, BigDecimal amount) {
+        sender.setBalance(sender.getBalance().subtract(amount));
+        receiver.setBalance(receiver.getBalance().add(amount));
+        saveUser(sender);
+        saveUser(receiver);
+    }
+
     public List<User> getAllUsers(){
         return this.repository.findAll();
     }
