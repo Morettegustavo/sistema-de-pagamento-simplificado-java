@@ -3,6 +3,7 @@ package com.picpaysimplificado.controllers;
 import com.picpaysimplificado.domain.transaction.Transaction;
 import com.picpaysimplificado.dtos.TransactionDTO;
 import com.picpaysimplificado.services.TransactionService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping
+    @Operation(description = "Realizar uma nota transação")
     public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionDTO transaction) throws Exception {
         Transaction newTransaction = this.transactionService.createTransaction(transaction);
         return new ResponseEntity<>(newTransaction, HttpStatus.OK);
