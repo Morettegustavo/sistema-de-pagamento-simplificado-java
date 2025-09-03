@@ -38,11 +38,7 @@ public class TransactionService {
             throw new Exception("Transação não autorizada");
         }
 
-        Transaction transaction = new Transaction();
-        transaction.setAmount(transactionDTO.amount());
-        transaction.setSender(sender);
-        transaction.setReceiver(receiver);
-        transaction.setTimestamp(LocalDateTime.now());
+        Transaction transaction = new Transaction(transactionDTO.amount(), sender, receiver, LocalDateTime.now());
 
         sender.setBalance(sender.getBalance().subtract(transactionDTO.amount()));
         receiver.setBalance(receiver.getBalance().add(transactionDTO.amount()));

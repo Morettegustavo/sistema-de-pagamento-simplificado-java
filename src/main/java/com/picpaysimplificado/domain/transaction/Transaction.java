@@ -27,6 +27,13 @@ public class Transaction {
     private User receiver;
     private LocalDateTime timestamp;
 
+    public Transaction(BigDecimal amount, User sender, User receiver, LocalDateTime timestamp) {
+        this.amount = amount;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.timestamp = timestamp;
+    }
+
     public Long getId() {
         return id;
     }
