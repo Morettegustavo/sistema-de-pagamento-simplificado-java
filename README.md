@@ -31,3 +31,25 @@ Content-Type: application/json
   "senderId": 4,
   "receiverId": 15
 }
+```
+## 🚀 Como iniciar a aplicação com Docker
+
+Este projeto já possui **Dockerfile** e **docker-compose.yml** configurados.  
+Com isso, você pode subir tanto o **banco MySQL** quanto a **aplicação Spring Boot** de forma simples.
+
+---
+
+### 1. Pré-requisitos
+- [Docker](https://docs.docker.com/get-docker/) instalado
+- Java 17 e Maven instalados (apenas se quiser rodar fora do Docker)
+---
+
+### 2. Gerar o `.jar` da aplicação (opcional)
+Na raiz do projeto, rode:
+
+```code
+mvn clean package -DskipTests
+e
+docker-compose up --build
+```
+

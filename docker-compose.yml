@@ -1,0 +1,34 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-pagamento-simplificado
+    environment:
+      MYSQL_DATABASE: pagamentosimplificado
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - root-net
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: root-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pagamentosimplificado?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - root-net
+    restart: always
+
+networks:
+  root-net:
+
+volumes:
+  mysql_data:
