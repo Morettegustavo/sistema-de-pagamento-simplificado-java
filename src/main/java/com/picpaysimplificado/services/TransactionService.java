@@ -1,36 +1,44 @@
 package com.picpaysimplificado.services;
 
 import com.picpaysimplificado.domain.transaction.Transaction;
+import com.picpaysimplificado.domain.transaction.TransactionFactory;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.dtos.TransactionDTO;
 import com.picpaysimplificado.repositories.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
 public class TransactionService {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final TransactionRepository transactionRepository;
+    private final NotificationService notificationService;
+    private final TransactionFactory transactionFactory;
+    private final RestTemplate restTemplate;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private NotificationService notificationService;
+    public TransactionService(
+            UserService userService,
+            TransactionRepository transactionRepository,
+            NotificationService notificationService,
+            TransactionFactory transactionFactory,
+            RestTemplate restTemplate
+    ) {
+        this.userService = userService;
+        this.transactionRepository = transactionRepository;
+        this.notificationService = notificationService;
+        this.transactionFactory = transactionFactory;
+        this.restTemplate = restTemplate;
+    }
 
     public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
         User sender = this.userService.findUserById(transactionDTO.senderId());
         User receiver = this.userService.findUserById(transactionDTO.receiverId());
+
         userService.validateTransaction(sender, transactionDTO.amount());
 
         boolean isAuthorized = this.authorizeTransaction(sender, transactionDTO.amount());
@@ -38,12 +46,7 @@ public class TransactionService {
             throw new Exception("Transação não autorizada");
         }
 
-        Transaction transaction = Transaction.builder()
-                .amount(transactionDTO.amount())
-                .sender(sender)
-                .receiver(receiver)
-                .timestamp(LocalDateTime.now())
-                .build();
+        Transaction transaction = transactionFactory.createTransaction(transactionDTO, sender, receiver);
 
         sender.setBalance(sender.getBalance().subtract(transactionDTO.amount()));
         receiver.setBalance(receiver.getBalance().add(transactionDTO.amount()));
