@@ -1,5 +1,6 @@
 package com.picpaysimplificado.services;
 
+import com.picpaysimplificado.domain.transaction.Transaction;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.domain.user.UserType;
 import com.picpaysimplificado.dtos.UserDTO;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,8 +31,17 @@ public class UserService {
         return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
     }
 
-    public User createUser(UserDTO data){
-        User newUser = new User(data);
+    public User createUser(UserDTO userDTO){
+        User newUser = User.builder()
+                .firstName(userDTO.firstName())
+                .lastName(userDTO.lastName())
+                .document(userDTO.document())
+                .email(userDTO.email())
+                .password(userDTO.password())
+                .balance(userDTO.balance())
+                .type(userDTO.type())
+                .build();
+
         this.saveUser(newUser);
 
         return newUser;
