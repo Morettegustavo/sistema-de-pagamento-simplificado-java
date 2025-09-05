@@ -44,8 +44,8 @@ public class TransactionService {
         userService.processTransaction(sender, receiver, transactionDTO.amount());
 
         this.transactionRepository.save(transaction);
-        this.notificationService.sendNotification(sender, "Transação realizada com sucesso");
-        this.notificationService.sendNotification(receiver, "Transação recebida com sucesso");
+        this.notificationService.sendNotification(sender.getEmail(), "Transação realizada com sucesso");
+        this.notificationService.sendNotification(receiver.getEmail(), "Transação recebida com sucesso");
 
         return transaction;
     }

@@ -12,6 +12,15 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-pagamento-simplificado
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - root-net
+
   app:
     build: .
     container_name: root-app
@@ -19,10 +28,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pagamentosimplificado?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
     ports:
       - "8080:8080"
     depends_on:
       - mysql
+      - rabbitmq
     networks:
       - root-net
     restart: always

@@ -1,23 +1,21 @@
 package com.picpaysimplificado.services;
 
-import com.picpaysimplificado.domain.user.User;
+import com.picpaysimplificado.dtos.NotificationDTO;
+import com.picpaysimplificado.infra.RabbitMQConfig;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.SimpleMailMessage;
 
 @Service
 public class NotificationService {
-    private final JavaMailSender mailSender;
+    private final RabbitTemplate rabbitTemplate;
 
-    public NotificationService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
+    public NotificationService(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendNotification(User user, String message) throws Exception {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Notificação de Transação");
-        mailMessage.setText(message);
-        mailSender.send(mailMessage);
+    public void sendNotification(String email, String message) {
+        NotificationDTO notification = new NotificationDTO(email, message);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EMAIL_QUEUE, notification);
+        System.out.println("📩 Mensagem enviada para fila: " + email);
     }
 }

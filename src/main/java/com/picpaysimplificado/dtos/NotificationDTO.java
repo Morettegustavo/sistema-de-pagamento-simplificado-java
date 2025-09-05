@@ -1,4 +1,6 @@
 package com.picpaysimplificado.dtos;
 
-public record NotificationDTO(String email, String message) {
+import java.io.Serializable;
+
+public record NotificationDTO(String email, String message) implements Serializable {
 }
