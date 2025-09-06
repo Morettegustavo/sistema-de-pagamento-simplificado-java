@@ -1,16 +1,15 @@
 package com.picpaysimplificado.domain.user;
 
-import com.picpaysimplificado.dtos.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 
-@Entity(name="users")
-@Table(name="users")
+@Entity(name = "users")
+@Table(name = "users")
 @Getter
 @Setter
-@EqualsAndHashCode(of="id")
+@EqualsAndHashCode(of = "id")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class User {
     private String firstName;
     private String lastName;
     @Column(unique = true)
-    private String document;
+    private String cpf;
     @Column(unique = true)
     private String email;
     private String password;
