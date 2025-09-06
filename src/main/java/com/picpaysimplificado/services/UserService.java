@@ -1,6 +1,5 @@
 package com.picpaysimplificado.services;
 
-import com.picpaysimplificado.domain.transaction.Transaction;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.domain.user.UserType;
 import com.picpaysimplificado.dtos.UserDTO;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -18,11 +16,11 @@ public class UserService {
     private UserRepository repository;
 
     public void validateTransaction(User sender, BigDecimal amount) throws Exception {
-        if(sender.getType() != UserType.COMMON){
+        if (sender.getType() != UserType.COMMON) {
             throw new Exception("Usuário do tipo Lojista não está autorizado a realizar transação");
         }
 
-        if(sender.getBalance().compareTo(amount) < 0){
+        if (sender.getBalance().compareTo(amount) < 0) {
             throw new Exception("Saldo insuficiente");
         }
     }
@@ -31,11 +29,11 @@ public class UserService {
         return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
     }
 
-    public User createUser(UserDTO userDTO){
+    public User createUser(UserDTO userDTO) {
         User newUser = User.builder()
                 .firstName(userDTO.firstName())
                 .lastName(userDTO.lastName())
-                .document(userDTO.document())
+                .cpf(userDTO.cpf())
                 .email(userDTO.email())
                 .password(userDTO.password())
                 .balance(userDTO.balance())
@@ -54,11 +52,11 @@ public class UserService {
         saveUser(receiver);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return this.repository.findAll();
     }
 
-    public void saveUser(User user){
+    public void saveUser(User user) {
         this.repository.save(user);
     }
 }

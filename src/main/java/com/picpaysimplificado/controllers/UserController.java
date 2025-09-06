@@ -4,8 +4,7 @@ import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.dtos.UserDTO;
 import com.picpaysimplificado.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class UserController {
 
     @PostMapping
     @Operation(description = "Cadastrar um novo usuário")
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid UserDTO user) {
         User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
