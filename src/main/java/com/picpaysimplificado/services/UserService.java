@@ -3,6 +3,7 @@ package com.picpaysimplificado.services;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.domain.user.UserType;
 import com.picpaysimplificado.dtos.UserDTO;
+import com.picpaysimplificado.exceptions.ErrorMessages;
 import com.picpaysimplificado.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,16 @@ public class UserService {
 
     public void validateTransaction(User sender, BigDecimal amount) throws Exception {
         if (sender.getType() != UserType.COMMON) {
-            throw new Exception("Usuário do tipo Lojista não está autorizado a realizar transação");
+            throw new Exception(ErrorMessages.UNAUTHORIZED_TRANSACTION_NON_COMMON.getMessage());
         }
 
         if (sender.getBalance().compareTo(amount) < 0) {
-            throw new Exception("Saldo insuficiente");
+            throw new Exception(ErrorMessages.INSUFFICIENT_BALANCE.getMessage());
         }
     }
 
     public User findUserByIdForUpdate(Long id) throws Exception {
-        return this.repository.findUserByIdForUpdate(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+        return this.repository.findUserByIdForUpdate(id).orElseThrow(() -> new Exception(ErrorMessages.USER_NOT_FOUND.getMessage()));
     }
 
     public User createUser(UserDTO userDTO) {
