@@ -25,8 +25,8 @@ public class UserService {
         }
     }
 
-    public User findUserById(Long id) throws Exception {
-        return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
+    public User findUserByIdForUpdate(Long id) throws Exception {
+        return this.repository.findUserByIdForUpdate(id).orElseThrow(() -> new Exception("Usuário não encontrado"));
     }
 
     public User createUser(UserDTO userDTO) {

@@ -5,6 +5,7 @@ import com.picpaysimplificado.domain.transaction.TransactionFactory;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.dtos.TransactionDTO;
 import com.picpaysimplificado.repositories.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,10 +29,11 @@ public class TransactionService {
         this.transactionFactory = transactionFactory;
         this.authorizationService = authorizationService;
     }
-
+    
+    @Transactional
     public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
-        User sender = this.userService.findUserById(transactionDTO.senderId());
-        User receiver = this.userService.findUserById(transactionDTO.receiverId());
+        User sender = this.userService.findUserByIdForUpdate(transactionDTO.senderId());
+        User receiver = this.userService.findUserByIdForUpdate(transactionDTO.receiverId());
 
         userService.validateTransaction(sender, transactionDTO.amount());
 
