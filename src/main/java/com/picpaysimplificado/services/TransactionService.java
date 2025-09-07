@@ -4,6 +4,7 @@ import com.picpaysimplificado.domain.transaction.Transaction;
 import com.picpaysimplificado.domain.transaction.TransactionFactory;
 import com.picpaysimplificado.domain.user.User;
 import com.picpaysimplificado.dtos.TransactionDTO;
+import com.picpaysimplificado.exceptions.ErrorMessages;
 import com.picpaysimplificado.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class TransactionService {
         this.transactionFactory = transactionFactory;
         this.authorizationService = authorizationService;
     }
-    
+
     @Transactional
     public Transaction createTransaction(TransactionDTO transactionDTO) throws Exception {
         User sender = this.userService.findUserByIdForUpdate(transactionDTO.senderId());
@@ -38,7 +39,7 @@ public class TransactionService {
         userService.validateTransaction(sender, transactionDTO.amount());
 
         if (!authorizationService.authorizeTransaction(sender, transactionDTO.amount())) {
-            throw new Exception("Transação não autorizada");
+            throw new Exception(ErrorMessages.UNAUTHORIZED_TRANSACTION.getMessage());
         }
 
         Transaction transaction = transactionFactory.createTransaction(transactionDTO, sender, receiver);
