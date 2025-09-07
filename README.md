@@ -48,8 +48,38 @@ Com isso, você pode subir tanto o **banco MySQL** quanto a **aplicação Spring
 Na raiz do projeto, rode:
 
 ```code
-mvn clean package -DskipTests
+./mvnw clean package -DskipTests
 e
 docker-compose up --build
 ```
+## 🛠️ Tecnologias e Boas Práticas Utilizadas  
+
+### ✅ API REST com Spring Boot  
+- Estrutura seguindo princípios **RESTful**  
+- Uso de **Spring Web**, **Spring Data JPA**, **Spring Validation**  
+
+### 🐳 Containerização com Docker  
+- Aplicação empacotada em **Docker**  
+- **docker-compose** para orquestrar aplicação + banco MySQL  
+
+### 📩 Mensageria com RabbitMQ  
+- Envio de **notificações assíncronas** via filas  
+- Garantia de **desacoplamento** e **resiliência**  
+
+### 🧪 Testes Unitários e Integrados  
+- **JUnit 5 + Mockito** cobrindo regras de negócio  
+- Testes de **integração** entre serviços e repositórios  
+- Simulações de cenários críticos como **race condition**  
+
+### ⚡ Race Condition  
+- Testes concorrentes simulando **transferências simultâneas**  
+- Demonstração de possíveis inconsistências e técnicas para evitá-las  
+
+### 🚨 Tratamento de Erros  
+- **Exception Handling Global** com `@ControllerAdvice`  
+- Respostas padronizadas e amigáveis de erro  
+
+### 📖 Documentação com Swagger  
+- **Swagger UI (Springdoc OpenAPI)** integrado  
+- Facilita testes e integração de clientes externos  
 
