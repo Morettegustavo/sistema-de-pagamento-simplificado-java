@@ -92,9 +92,9 @@ class UserServiceTest {
                 .firstName("Carlos")
                 .build();
 
-        when(userRepository.findUserById(1L)).thenReturn(Optional.of(user));
+        when(userRepository.findUserByIdForUpdate(1L)).thenReturn(Optional.of(user));
 
-        User found = userService.findUserById(1L);
+        User found = userService.findUserByIdForUpdate(1L);
 
         assertNotNull(found);
         assertEquals("Carlos", found.getFirstName());
@@ -102,10 +102,10 @@ class UserServiceTest {
 
     @Test
     void shouldThrowExceptionWhenUserNotFound() {
-        when(userRepository.findUserById(99L)).thenReturn(Optional.empty());
+        when(userRepository.findUserByIdForUpdate(99L)).thenReturn(Optional.empty());
 
         Exception ex = assertThrows(Exception.class, () ->
-                userService.findUserById(99L)
+                userService.findUserByIdForUpdate(99L)
         );
 
         assertEquals("Usuário não encontrado", ex.getMessage());

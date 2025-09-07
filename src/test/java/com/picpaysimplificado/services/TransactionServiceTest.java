@@ -64,8 +64,8 @@ class TransactionServiceTest {
         TransactionDTO dto = new TransactionDTO(BigDecimal.TEN, sender.getId(), receiver.getId());
         Transaction transaction = new Transaction();
 
-        when(userService.findUserById(sender.getId())).thenReturn(sender);
-        when(userService.findUserById(receiver.getId())).thenReturn(receiver);
+        when(userService.findUserByIdForUpdate(sender.getId())).thenReturn(sender);
+        when(userService.findUserByIdForUpdate(receiver.getId())).thenReturn(receiver);
         when(authorizationService.authorizeTransaction(any(), any())).thenReturn(true);
         when(transactionFactory.createTransaction(dto, sender, receiver)).thenReturn(transaction);
 
@@ -82,8 +82,8 @@ class TransactionServiceTest {
         TransactionDTO dto = new TransactionDTO(BigDecimal.TEN, sender.getId(), receiver.getId());
 
 
-        when(userService.findUserById(sender.getId())).thenReturn(sender);
-        when(userService.findUserById(receiver.getId())).thenReturn(receiver);
+        when(userService.findUserByIdForUpdate(sender.getId())).thenReturn(sender);
+        when(userService.findUserByIdForUpdate(receiver.getId())).thenReturn(receiver);
         when(authorizationService.authorizeTransaction(any(), any())).thenReturn(false);
 
         Exception ex = assertThrows(Exception.class, () -> transactionService.createTransaction(dto));
@@ -96,8 +96,8 @@ class TransactionServiceTest {
         TransactionDTO dto = new TransactionDTO(BigDecimal.TEN, sender.getId(), receiver.getId());
 
 
-        when(userService.findUserById(sender.getId())).thenReturn(sender);
-        when(userService.findUserById(receiver.getId())).thenReturn(receiver);
+        when(userService.findUserByIdForUpdate(sender.getId())).thenReturn(sender);
+        when(userService.findUserByIdForUpdate(receiver.getId())).thenReturn(receiver);
 
         doThrow(new Exception("Saldo insuficiente"))
                 .when(userService).validateTransaction(sender, dto.amount());
@@ -111,8 +111,8 @@ class TransactionServiceTest {
         sender.setType(UserType.MERCHANT);
         TransactionDTO dto = new TransactionDTO(BigDecimal.TEN, sender.getId(), receiver.getId());
 
-        when(userService.findUserById(sender.getId())).thenReturn(sender);
-        when(userService.findUserById(receiver.getId())).thenReturn(receiver);
+        when(userService.findUserByIdForUpdate(sender.getId())).thenReturn(sender);
+        when(userService.findUserByIdForUpdate(receiver.getId())).thenReturn(receiver);
 
         doThrow(new Exception("Usuário do tipo Lojista não está autorizado a realizar transação"))
                 .when(userService).validateTransaction(sender, dto.amount());
