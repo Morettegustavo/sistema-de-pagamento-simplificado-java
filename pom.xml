@@ -88,6 +88,16 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>11.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>11.13.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -115,7 +125,19 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>10.20.0</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/pagamentosimplificado</url>
+                    <user>root</user>
+                    <password>senha</password>
+                    <schemas>
+                        <schema>pagamentosimplificado</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>

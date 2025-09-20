@@ -1,0 +1,12 @@
+CREATE TABLE users (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    balance DECIMAL(38,2) DEFAULT NULL,
+    cpf VARCHAR(255) DEFAULT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    first_name VARCHAR(255) DEFAULT NULL,
+    last_name VARCHAR(255) DEFAULT NULL,
+    type ENUM('COMMON','MERCHANT') DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY UK_users_cpf (cpf),
+    UNIQUE KEY UK_users_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

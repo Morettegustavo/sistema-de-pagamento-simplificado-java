@@ -36,7 +36,6 @@ public class UserService {
                 .lastName(userDTO.lastName())
                 .cpf(userDTO.cpf())
                 .email(userDTO.email())
-                .password(userDTO.password())
                 .balance(userDTO.balance())
                 .type(userDTO.type())
                 .build();
