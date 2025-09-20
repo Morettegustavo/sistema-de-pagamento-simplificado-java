@@ -23,7 +23,6 @@ public class User {
     private String cpf;
     @Column(unique = true)
     private String email;
-    private String password;
     private BigDecimal balance;
     @Enumerated(EnumType.STRING)
     private UserType type;

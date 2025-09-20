@@ -2,7 +2,10 @@ package com.picpaysimplificado.dtos;
 
 import com.picpaysimplificado.domain.user.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.math.BigDecimal;
@@ -31,11 +34,6 @@ public record UserDTO(
         @Email(message = "E-mail inválido")
         @Schema(example = "joao@gmail.com")
         String email,
-
-        @NotBlank(message = "A senha é obrigatória")
-        @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
-        @Schema(example = "senh@123")
-        String password,
 
         @NotNull(message = "O tipo de usuário é obrigatório")
         @Schema(example = "COMMON")
